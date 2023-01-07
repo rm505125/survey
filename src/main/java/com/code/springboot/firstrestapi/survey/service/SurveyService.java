@@ -1,5 +1,7 @@
 package com.code.springboot.firstrestapi.survey.service;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +43,7 @@ public class SurveyService {
 	public Survey getsurveyById(String surveyId) {
 
 		Predicate<? super Survey> predicate = survey -> survey.getId().equals(surveyId);
-		
+
 		Optional<Survey> optionalSurvey = surveys.stream().filter(predicate).findFirst();
 
 		if (optionalSurvey.isEmpty()) {
@@ -52,28 +54,45 @@ public class SurveyService {
 
 	public List<Question> retrieveAllQuestions(String surveyId) {
 		// TODO Auto-generated method stub
-		
+
 		Survey survey = getsurveyById(surveyId);
-		if(survey == null) {
+		if (survey == null) {
 			return null;
 		}
 		return survey.getQuestions();
-		
+
 	}
 
 	public Question retrieveQuestionById(String surveyId, String questionsId) {
 		// TODO Auto-generated method stub
 		List<Question> surveyQuestion = retrieveAllQuestions(surveyId);
-		if(surveyQuestion == null) {
+		if (surveyQuestion == null) {
 			return null;
 		}
 		Predicate<? super Question> predicate = question -> question.getId().equals(questionsId);
-		 Optional<Question> optionalQuestion = surveyQuestion.stream().filter(predicate).findFirst();
-		 if(optionalQuestion.isEmpty()) {
-			 return null;
-		 }
-		 return optionalQuestion.get();
+		Optional<Question> optionalQuestion = surveyQuestion.stream().filter(predicate).findFirst();
+		if (optionalQuestion.isEmpty()) {
+			return null;
+		}
+		return optionalQuestion.get();
+	}
+
+	public String addNewSurveyQuestion(String surveyId, Question question) {
+		// TODO Auto-generated method stub
+		List<Question> questions = retrieveAllQuestions(surveyId);
+
+		// generationg random id
+		question.setId(generateRandomId());
+		questions.add(question);
+		return question.getId();
+	}
+
+	private String generateRandomId() {
+		SecureRandom secureRandom = new SecureRandom();
+		String randomId = new BigInteger(32, secureRandom).toString();
+		return randomId;
 	}
 
 	
+
 }
