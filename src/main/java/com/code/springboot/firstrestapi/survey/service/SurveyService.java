@@ -108,4 +108,12 @@ public class SurveyService {
 		return questionsId;
 	}
 
+	public void updateQuestionById(String surveyId, String questionsId, Question question) {
+		List<Question> questions = retrieveAllQuestions(surveyId);
+		questions.removeIf(q -> q.getId().equalsIgnoreCase(questionsId));
+		questions.add(question);
+		
+		
+	}
+
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -105,6 +106,13 @@ public class SurveyResource {
 		service.deleteQuestionById(surveyId, questionsId);
 		//return ResponseEntity.noContent().build(); //204
 		return ResponseEntity.accepted().build(); //202
+	}
+	
+	@RequestMapping(value = "surveys/{surveyId}/questions/{questionsId}", method = RequestMethod.PUT)
+	public ResponseEntity<Object> updateQuestionById(@PathVariable String surveyId, @PathVariable String questionsId, @RequestBody Question question) {
+		service.updateQuestionById(surveyId, questionsId,question);
+		//return ResponseEntity.noContent().build(); //204
+		return ResponseEntity.ok().build(); //202
 	}
 	
 }
