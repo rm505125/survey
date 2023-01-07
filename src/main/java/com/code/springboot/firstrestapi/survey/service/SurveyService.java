@@ -93,6 +93,19 @@ public class SurveyService {
 		return randomId;
 	}
 
-	
+	public String deleteQuestionById(String surveyId, String questionsId) {
+		// TODO Auto-generated method stub
+		List<Question> questions = retrieveAllQuestions(surveyId);
+
+		if(questions == null) {
+			return null;
+		}
+		Predicate<? super Question> predicate = question -> question.getId().equalsIgnoreCase(questionsId);
+		boolean removed = questions.removeIf(predicate);
+		if(!removed) {
+			return null;
+		}
+		return questionsId;
+	}
 
 }
