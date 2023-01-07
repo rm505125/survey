@@ -20,3 +20,4 @@ public class HelloWorldResource {
 		return new HelloWorldBean("Hello World");
 	}
 }
+ 
